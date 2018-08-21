@@ -4,7 +4,7 @@ const HTMLWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const MinifyPlugin = require('babel-minify-webpack-plugin')
-const isProd = process.env.NODE_ENV === 'production'
+const CompressionPlugin = require('compression-webpack-plugin')
 
 module.exports = {
   entry: {
@@ -92,6 +92,9 @@ module.exports = {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
-    new MinifyPlugin()
+    new MinifyPlugin(),
+    new CompressionPlugin({
+      algorithm: 'gzip'
+    })
   ]
 }
