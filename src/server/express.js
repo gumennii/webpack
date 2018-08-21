@@ -28,15 +28,21 @@ if (!isProd) {
    */
   server.use(webpackDevMiddleware)
   server.use(webpackHotMiddleware)
+  console.log('Middleware Enabled')
 }
 
-const staticMiddleware = express.static('dist')
 
 // Handle gzip in express
 const expressStaticGzip = require('express-static-gzip')
-server.use(expressStaticGzip('dist'))
+server.use(
+  expressStaticGzip('dist', {
+    enableBrotli: true
+  })
+)
+// const staticMiddleware = express.static('dist')
 // server.use(staticMiddleware)
 
-server.listen(8080, () => {
-  console.log('Server is listening...')
+const PORT = process.env.PORT || 8080
+server.listen(PORT, () => {
+  console.log(`Server listening on http://localhost:${PORT} in ${process.env.NODE_ENV}`)
 })

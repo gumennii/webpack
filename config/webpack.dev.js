@@ -1,17 +1,17 @@
 const path = require('path')
 const webpack = require('webpack')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = {
   entry: {
     main: [
+      'react-hot-loader/patch',
       'babel-runtime/regenerator',
       'babel-register',
-      'react-hot-loader/patch',
       'webpack-hot-middleware/client?reload=true',
       './src/main.js'
-    ],
-    ts: ['./src/index.ts']
+    ]
   },
   mode: 'development',
   output: {
@@ -86,13 +86,17 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new HTMLWebpackPlugin({
-      template: './src/index.pug'
-    }),
+    new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development')
       }
+    }),
+    new HTMLWebpackPlugin({
+      template: './src/index.pug'
+    }),
+    new BundleAnalyzerPlugin({
+      generateStatsFile: true
     })
   ]
 }

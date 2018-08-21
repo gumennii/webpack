@@ -5,17 +5,31 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const MinifyPlugin = require('babel-minify-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
+const BrotliPlugin = require('brotli-webpack-plugin')
 
 module.exports = {
   entry: {
     main: ['./src/main.js'],
-    ts: ['./src/index.ts']
+    other: ['./src/main.js']
   },
   mode: 'production',
   output: {
     filename: '[name]-[contenthash].js',
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/'
+  },
+  optimization: {
+    splitChunks: {
+      automaticNameDelimiter: '-',
+      cacheGroups: {
+        vendor: {
+          name: 'vendor',
+          test: /[\\/]node_modules[\\/]/,
+          chunks: 'initial',
+          minChunks: 2
+        }
+      }
+    }
   },
   module: {
     rules: [
@@ -85,7 +99,8 @@ module.exports = {
       filename: '[name]-[contenthash].css'
     }),
     new HTMLWebpackPlugin({
-      template: './src/index.pug'
+      template: './src/index.pug',
+      chunks: ['vendor', 'main']
     }),
     new webpack.DefinePlugin({
       'process.env': {
@@ -94,7 +109,8 @@ module.exports = {
     }),
     new MinifyPlugin(),
     new CompressionPlugin({
-      algorithm: 'gzip'
-    })
+        algorithm: "gzip"
+      }),
+    new BrotliPlugin()
   ]
 }
