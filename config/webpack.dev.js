@@ -13,7 +13,6 @@ module.exports = {
   },
   devServer: {
     contentBase: 'dist',
-    overlay: true,
     hot: true
   },
   module: {
