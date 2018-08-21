@@ -59,13 +59,19 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test: /\.pug$/,
+        use: [
+          { loader: 'pug-loader' }
+        ]
       }
     ]
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new HTMLWebpackPlugin({
-      template: './src/index.html'
+      template: './src/index.pug'
     })
   ]
 }
