@@ -4620,7 +4620,7 @@ webpack-express-middleware@^1.2.1:
     webpack-dev-middleware "^1.9.0"
     webpack-hot-middleware "^2.14.0"
 
-webpack-hot-middleware@^2.14.0:
+webpack-hot-middleware@^2.14.0, webpack-hot-middleware@^2.22.3:
   version "2.22.3"
   resolved "https://registry.yarnpkg.com/webpack-hot-middleware/-/webpack-hot-middleware-2.22.3.tgz#ae6025d57d656085c5b716b44e0bc0f796787776"
   dependencies:
