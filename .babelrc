@@ -9,5 +9,8 @@
         "debug": true
       }
     ]
+  ],
+  "plugins": [
+    "transform-runtime"
   ]
 }
