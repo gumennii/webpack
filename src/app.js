@@ -1,7 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+import Counter from './counter'
+
 ReactDOM.render(
-  <div>React</div>,
+  <Counter />,
   document.getElementById('root')
 )
