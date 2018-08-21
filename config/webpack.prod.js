@@ -4,6 +4,8 @@ const HTMLWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
+const isProd = process.env.NODE_ENV === 'production'
+
 module.exports = {
   entry: {
     main: ['./src/main.js'],
@@ -11,7 +13,7 @@ module.exports = {
   },
   mode: 'production',
   output: {
-    filename: '[name]-bundle.js',
+    filename: '[name]-[contenthash].js',
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/'
   },
@@ -57,6 +59,12 @@ module.exports = {
         ]
       },
       {
+        test: /\.pug$/,
+        use: [
+          { loader: 'pug-loader' }
+        ]
+      },
+      {
         test: /\.jpg$/,
         use: [
           {
@@ -65,12 +73,6 @@ module.exports = {
               name: 'images/[name].[ext]'
             }
           }
-        ]
-      },
-      {
-        test: /\.pug$/,
-        use: [
-          { loader: 'pug-loader' }
         ]
       }
     ]
@@ -84,6 +86,11 @@ module.exports = {
     }),
     new HTMLWebpackPlugin({
       template: './src/index.pug'
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
     })
   ]
 }

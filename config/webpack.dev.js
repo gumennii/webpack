@@ -4,7 +4,13 @@ const HTMLWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: {
-    main: ['./src/main.js'],
+    main: [
+      'babel-runtime/regenerator',
+      'babel-register',
+      'react-hot-loader/patch',
+      'webpack-hot-middleware/client?reload=true',
+      './src/main.js'
+    ],
     ts: ['./src/index.ts']
   },
   mode: 'development',
@@ -82,6 +88,11 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new HTMLWebpackPlugin({
       template: './src/index.pug'
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('development')
+      }
     })
   ]
 }
