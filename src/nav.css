@@ -1,0 +1,9 @@
+a {
+  display: inline-block;
+  font-size: 14px;
+}
+
+/* Body Styles will be removed */
+body {
+  color: #444;
+}
