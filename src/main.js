@@ -1,6 +1,7 @@
 require('./main.css')
 require('./index.html')
 
-let a = () => {
-  console.log('test')
+let a = async () => {
+  await console.log('test')
+  console.log('done')
 }
