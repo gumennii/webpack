@@ -1,2 +1,4 @@
-### Webpack 4 Out of the Box
-  - Hot Reloading for Entry file
+## What needs to be done
+1. Add Loaders for
+  - JS
+  - CSS

@@ -1,5 +1,4 @@
 import express from 'express'
-import path from 'path'
 
 const server = express()
 
@@ -27,6 +26,9 @@ const staticMiddleware = express.static('dist')
 
 server.use(staticMiddleware)
 
-server.listen(8080, () => {
-  console.log('Server is listening...')
-})
+server.listen(
+  process.env.PORT || 8080,
+  error => error
+    ? console.error(`Server crashed - ${error}`)
+    : console.info(`Server started - running at ${process.env.PORT}`)
+)

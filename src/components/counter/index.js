@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
-import { hot } from 'react-hot-loader'
+import React from 'react'
 
-class Counter extends Component {
+class Counter extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -26,4 +25,4 @@ class Counter extends Component {
   }
 }
 
-export default hot(module)(Counter)
+export default Counter
