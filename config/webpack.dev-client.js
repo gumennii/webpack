@@ -1,28 +1,43 @@
 const path = require('path')
 const webpack = require('webpack')
-const HTMLWebpackPlugin = require('html-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const ExtractCssChunks = require('extract-css-chunks-webpack-plugin')
 
 module.exports = {
+  name: 'client',
+  mode: 'development',
+
   entry: {
     vendor: ['react', 'react-dom'],
     main: [
       'react-hot-loader/patch',
       'babel-runtime/regenerator',
-      'babel-register',
       'webpack-hot-middleware/client?reload=true',
       './src/main.js'
     ]
   },
-  mode: 'development',
   output: {
     filename: '[name]-bundle.js',
+    chunkFilename: '[name].js',
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/'
   },
   devServer: {
     contentBase: 'dist',
     hot: true
+  },
+  optimization: {
+    runtimeChunk: {
+      name: 'bootstrap'
+    },
+    splitChunks: {
+      chunks: 'initial',
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor'
+        }
+      }
+    }
   },
   devtool: 'source-map',
   module: {
@@ -51,7 +66,7 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          { loader: 'style-loader' },
+          { loader: ExtractCssChunks.loader },
           { loader: 'css-loader' }
         ]
       },
@@ -86,14 +101,12 @@ module.exports = {
     ]
   },
   plugins: [
+    new ExtractCssChunks({ hot: true }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development')
       }
     }),
     new webpack.HotModuleReplacementPlugin()
-    // new BundleAnalyzerPlugin({
-    //   generateStatsFile: true
-    // })
   ]
 }

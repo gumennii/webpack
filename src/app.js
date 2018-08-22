@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 
 import Counter from './counter'
 
-ReactDOM.render(
+ReactDOM.hydrate(
   <Counter />,
   document.getElementById('root')
 )

@@ -6,13 +6,15 @@
         "targets": {
           "browsers": ["last 2 versions"]
         },
-        "debug": true
+        "debug": false
       }
     ],
     "babel-preset-react"
   ],
-  "plugins": [
-    "transform-runtime",
-    "react-hot-loader/babel"
-  ]
+  "plugins": ["syntax-dynamic-import", "universal-import"],
+  "env": {
+    "development": {
+      "plugins": ["react-hot-loader/babel"]
+    }
+  }
 }
