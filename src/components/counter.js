@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { hot } from 'react-hot-loader'
+
+import styles from './counter'
 
 class Counter extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      count: 0
+      count: 5
     }
 
     this.handleClick = this.handleClick.bind(this)
@@ -20,10 +21,10 @@ class Counter extends Component {
   render() {
     return (
       <div onClick={this.handleClick}>
-        <h2>Counting: {this.state.count}</h2>
+        <h2 className={styles.heading}>Counting!: {this.state.count}</h2>
       </div>
     )
   }
 }
 
-export default hot(module)(Counter)
+export default Counter

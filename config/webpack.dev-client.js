@@ -12,7 +12,7 @@ module.exports = {
       'react-hot-loader/patch',
       'babel-runtime/regenerator',
       'webpack-hot-middleware/client?reload=true',
-      './src/main.js'
+      './src/index.js'
     ]
   },
   output: {
@@ -44,15 +44,8 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        use: [
-          { 
-            loader: 'babel-loader',
-            options: {
-              plugins: ['react-hot-loader/babel']
-            }
-          }
-        ],
         exclude: /node_modules/,
+        use: [{ loader: 'babel-loader' }],
       },
       {
         test: /\.ts$/,
@@ -104,7 +97,8 @@ module.exports = {
     new ExtractCssChunks({ hot: true }),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify('development')
+        NODE_ENV: JSON.stringify('development'),
+        WEBPACK: true
       }
     }),
     new webpack.HotModuleReplacementPlugin()

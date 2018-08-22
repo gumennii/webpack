@@ -5,6 +5,7 @@ const externals = require('./node-externals')
 module.exports = {
   name: 'server',
   target: 'node',
+  mode: 'development',
   externals: externals,
   entry: './src/server/render.js',
   output: {
