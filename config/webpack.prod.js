@@ -9,8 +9,8 @@ const BrotliPlugin = require('brotli-webpack-plugin')
 
 module.exports = {
   entry: {
-    main: ['./src/main.js'],
-    other: ['./src/main.js']
+    vendor: ['react', 'react-dom'],
+    main: ['./src/main.js']
   },
   mode: 'production',
   output: {
@@ -24,7 +24,6 @@ module.exports = {
       cacheGroups: {
         vendor: {
           name: 'vendor',
-          test: /[\\/]node_modules[\\/]/,
           chunks: 'initial',
           minChunks: 2
         }
