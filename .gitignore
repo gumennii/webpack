@@ -1,5 +1,11 @@
+# Folders
 /node_modules
 /dist
 
+# Hidden Files and Logs
+.env
 .vscode
 *.log
+
+# Files
+package-lock.json
