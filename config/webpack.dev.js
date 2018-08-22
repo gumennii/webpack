@@ -86,17 +86,14 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development')
       }
     }),
-    new HTMLWebpackPlugin({
-      template: './src/index.pug'
-    }),
-    new BundleAnalyzerPlugin({
-      generateStatsFile: true
-    })
+    new webpack.HotModuleReplacementPlugin()
+    // new BundleAnalyzerPlugin({
+    //   generateStatsFile: true
+    // })
   ]
 }

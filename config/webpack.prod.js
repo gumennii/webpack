@@ -7,109 +7,115 @@ const MinifyPlugin = require('babel-minify-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const BrotliPlugin = require('brotli-webpack-plugin')
 
-module.exports = {
-  entry: {
-    vendor: ['react', 'react-dom'],
-    main: ['./src/main.js']
-  },
-  mode: 'production',
-  output: {
-    filename: '[name]-[contenthash].js',
-    path: path.resolve(__dirname, '../dist'),
-    publicPath: '/'
-  },
-  optimization: {
-    splitChunks: {
-      automaticNameDelimiter: '-',
-      cacheGroups: {
-        vendor: {
-          name: 'vendor',
-          chunks: 'initial',
-          minChunks: 2
+module.exports = env => {
+  return {
+    entry: {
+      vendor: ['react', 'react-dom'],
+      main: ['./src/main.js']
+    },
+    mode: 'production',
+    output: {
+      filename: '[name]-[contenthash].js',
+      path: path.resolve(__dirname, '../dist'),
+      publicPath: '/'
+    },
+    optimization: {
+      splitChunks: {
+        automaticNameDelimiter: '-',
+        cacheGroups: {
+          vendor: {
+            name: 'vendor',
+            test: /[\\/]node_modules[\\/]/,
+            chunks: 'initial',
+            minChunks: 2
+          }
         }
       }
-    }
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        use: [
-          { 
-            loader: 'babel-loader',
-            options: {
-              plugins: ['react-hot-loader/babel']
+    },
+    module: {
+      rules: [
+        {
+          test: /\.js$/,
+          use: [
+            { 
+              loader: 'babel-loader',
+              options: {
+                plugins: ['react-hot-loader/babel']
+              }
             }
-          }
-        ],
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.ts$/,
-        use: [
-          { 
-            loader: 'awesome-typescript-loader'
-          }
-        ],
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.css$/,
-        use: [
-          { loader: MiniCssExtractPlugin.loader },
-          { loader: 'css-loader' }
-        ]
-      },
-      {
-        test: /\.html$/,
-        use: [
-          { 
-            loader: 'html-loader',
-            options: {
-              attrs: ['img:src'] 
+          ],
+          exclude: /node_modules/,
+        },
+        {
+          test: /\.ts$/,
+          use: [
+            { 
+              loader: 'awesome-typescript-loader'
             }
-          }
-        ]
-      },
-      {
-        test: /\.pug$/,
-        use: [
-          { loader: 'pug-loader' }
-        ]
-      },
-      {
-        test: /\.jpg$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: 'images/[name].[ext]'
+          ],
+          exclude: /node_modules/,
+        },
+        {
+          test: /\.css$/,
+          use: [
+            { loader: MiniCssExtractPlugin.loader },
+            { loader: 'css-loader' }
+          ]
+        },
+        {
+          test: /\.html$/,
+          use: [
+            { 
+              loader: 'html-loader',
+              options: {
+                attrs: ['img:src'] 
+              }
             }
-          }
-        ]
-      }
-    ]
-  },
-  plugins: [
-    new OptimizeCssAssetsPlugin({
-      cssProcessorOptions: { discardComments: { removeAll: true } }
-    }),
-    new MiniCssExtractPlugin({
-      filename: '[name]-[contenthash].css'
-    }),
-    new HTMLWebpackPlugin({
-      template: './src/index.pug',
-      chunks: ['vendor', 'main']
-    }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('production')
-      }
-    }),
-    new MinifyPlugin(),
-    new CompressionPlugin({
-        algorithm: "gzip"
+          ]
+        },
+        {
+          test: /\.pug$/,
+          use: [
+            { loader: 'pug-loader' }
+          ]
+        },
+        {
+          test: /\.jpg$/,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: 'images/[name].[ext]'
+              }
+            }
+          ]
+        }
+      ]
+    },
+    plugins: [
+      new MiniCssExtractPlugin({
+        filename: '[name]-[contenthash].css'
       }),
-    new BrotliPlugin()
-  ]
+      new OptimizeCssAssetsPlugin({
+        cssProcessorOptions: { discardComments: { removeAll: true } }
+      }),
+      new webpack.DefinePlugin({
+        'process.env': {
+          NODE_ENV: JSON.stringify(env.NODE_ENV)
+        }
+      }),
+      new HTMLWebpackPlugin({
+        template: './src/index.pug',
+        filename: 'index.html',
+        inject: true,
+        title: 'Sample Title',
+        chunks: ['vendor', 'main']
+      }),
+      new MinifyPlugin(),
+      new CompressionPlugin({
+          algorithm: 'gzip'
+        }),
+      new BrotliPlugin()
+    ]
+  }
 }

@@ -1,17 +1,23 @@
 import express from 'express'
-import path from 'path'
+import React from 'react'
+import ReactDOMServer from 'react-dom/server'
+import { renderToString } from 'react-dom/server'
+import Counter from '../counter.js'
 
+const expressStaticGzip = require('express-static-gzip')
 const server = express()
 
-const isProd = process.env.NODE_ENV === "production"
+const isProd = process.env.NODE_ENV === 'production'
+const isDev = !isProd
 
 /** 
  * Run middlewares only in development mode 
  */
-if (!isProd) {
+if (isDev) {
   const webpack = require('webpack')
   const config = require('../../config/webpack.dev.js')
   const compiler = webpack(config)
+  // require('webpack-mild-compile')(compiler)
 
   const webpackDevMiddleware = require('webpack-dev-middleware')(
     compiler,
@@ -29,18 +35,30 @@ if (!isProd) {
   server.use(webpackDevMiddleware)
   server.use(webpackHotMiddleware)
   console.log('Middleware Enabled')
-}
-
-
-// Handle gzip in express
-const expressStaticGzip = require('express-static-gzip')
-server.use(
-  expressStaticGzip('dist', {
-    enableBrotli: true
+} else {
+  const Counter = require('../counter').default
+  server.use(
+    expressStaticGzip("dist", {
+      enableBrotli: true
+    })
+  )
+  server.get('*', (req, res) => {
+    res.send(`
+      <html>
+        <head>
+          <link href='./main.css' rel='stylesheet' />
+        </head>
+        <body>
+          <div id='root'>
+            ${renderToString(<Counter />)}
+          </div>
+          <script src='vendor-bundle.js'></script>
+          <script src='main-bundle.js'></script>
+        </body>
+      </html>
+    `)
   })
-)
-// const staticMiddleware = express.static('dist')
-// server.use(staticMiddleware)
+}
 
 const PORT = process.env.PORT || 8080
 server.listen(PORT, () => {
