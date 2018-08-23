@@ -1,21 +1,23 @@
 const path = require('path')
 const webpack = require('webpack')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const HTMLWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const NodeExternals = require('webpack-node-externals')
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const MinifyPlugin = require('babel-minify-webpack-plugin')
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
+  name: 'client',
   mode: 'production',
-  target: 'node',
   entry: {
-    server: ['./src/server/index.js']
+    main: ['./src/index.js']
   },
   output: {
     filename: '[name]-bundle.js',
-    path: path.resolve(__dirname, '../build'),
+    path: path.resolve(__dirname, '../dist'),
     publicPath: '/'
   },
-  externals: NodeExternals(),
   optimization: {
     splitChunks: {
       chunks: 'all',
@@ -78,8 +80,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'images/[name].[ext]',
-              emitFile: false
+              name: 'images/[name].[ext]'
             }
           }
         ]
@@ -87,13 +88,19 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(['build'], {
+    new CleanWebpackPlugin(['dist'], {
       root: path.resolve(__dirname, '..'), 
       verbose: true 
     }),
+    new OptimizeCssAssetsPlugin(),
+    // new MinifyPlugin(),
+    // new UglifyJsPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name].css'
     }),
+    // new HTMLWebpackPlugin({
+    //   template: './src/index.pug'
+    // }),
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production'
     })

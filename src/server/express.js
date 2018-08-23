@@ -1,46 +1,41 @@
 import express from 'express'
-import React from 'react'
-import ReactDOMServer from 'react-dom/server'
-import App from '../components/app'
+import webpack from 'webpack'
+
+import configDevClient from '../../config/webpack.dev-client.js'
+import configDevServer from '../../config/webpack.dev-server.js'
+import configProdClient from '../../config/webpack.prod-client.js'
+import configProdServer from '../../config/webpack.prod-server.js'
 
 const server = express()
 
-const webpack = require('webpack')
-const config = require('../../config/webpack.dev.js')
-const compiler = webpack(config)
+const isProd = process.env.NODE_ENV === 'production'
+const isDev = !isProd
 
-const webpackDevMiddleware = require('webpack-dev-middleware')(
-  compiler,
-  config.devServer
-)
+if (isDev) {
+  const compiler = webpack([configDevClient, configDevServer])
+  const clientCompiler = compiler.compilers[0]
+  const serverCompiler = compiler.compilers[1]
 
-const webpackHotMiddleware = require('webpack-hot-middleware')(compiler)
+  const webpackDevMiddleware = require('webpack-dev-middleware')(
+    compiler, configDevClient.devServer
+  )
 
-const staticMiddleware = express.static('dist')
+  const webpackHotMiddleware = require('webpack-hot-middleware')(
+    clientCompiler, configDevClient.devServer
+  )
 
-/**
- * Middlewares needs to be placed in order:
- * 1. webpackDevMiddleware
- * 2. webpackHotMiddleware
- * 3. staticMiddleware
- */
-server.use(webpackDevMiddleware)
-server.use(webpackHotMiddleware)
-server.use(staticMiddleware)
+  server.use(webpackDevMiddleware)
+  server.use(webpackHotMiddleware)
+  console.log('All Middlewares are enabled')
 
-server.get('*', (req, res) => {
-  res.send(`
-<html>
-  <head>
-    <link href="main.css" rel="stylesheet" />
-  </head>
-  <body>
-    <div id="root">${ReactDOMServer.renderToString(<App />)}</div>
-    <script src="vendors-bundle.js"></script>
-    <script src="main-bundle.js"></script>
-  </body>
-</html>`)
-})
+} else {
+  const render = require('./render.js')
+  const staticMiddleware = express.static('dist')
+
+  server.use(staticMiddleware)
+  server.use(render())
+}
+
 
 server.listen(
   process.env.PORT || 8080,

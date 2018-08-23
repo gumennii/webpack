@@ -1,28 +1,22 @@
 const path = require('path')
 const webpack = require('webpack')
-const HTMLWebpackPlugin = require('html-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const NodeExternals = require('webpack-node-externals')
 
 module.exports = {
-  mode: 'development',
+  name: 'server',
+  mode: 'production',
+  target: 'node',
   entry: {
-    main: [
-      'babel-runtime/regenerator',
-      'react-hot-loader/patch',
-      'babel-register',
-      'webpack-hot-middleware/client?reload=true',
-      './src/index.js'
-    ]
+    server: ['./src/server/index.js']
   },
   output: {
     filename: '[name]-bundle.js',
-    path: path.resolve(__dirname, '../dist'),
+    path: path.resolve(__dirname, '../build'),
     publicPath: '/'
   },
-  devServer: {
-    contentBase: 'dist',
-    hot: true
-  },
+  externals: NodeExternals(),
   optimization: {
     splitChunks: {
       chunks: 'all',
@@ -36,7 +30,6 @@ module.exports = {
       }
     }
   },
-  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -54,11 +47,13 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          { loader: 'style-loader' },
+          { 
+            loader: MiniCssExtractPlugin.loader
+          },
           { 
             loader: 'css-loader',
             options: {
-              modules: true
+              minimize: true
             }
           }
         ]
@@ -84,7 +79,8 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'images/[name].[ext]'
+              name: 'images/[name].[ext]',
+              emitFile: false
             }
           }
         ]
@@ -92,15 +88,15 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    // new HTMLWebpackPlugin({
-    //   template: './src/index.pug'
-    // }),
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development'
+    new CleanWebpackPlugin(['build'], {
+      root: path.resolve(__dirname, '..'), 
+      verbose: true 
     }),
-    new BundleAnalyzerPlugin({
-      openAnalyzer: false
+    new MiniCssExtractPlugin({
+      filename: '[name].css'
+    }),
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'production'
     })
   ]
 }
