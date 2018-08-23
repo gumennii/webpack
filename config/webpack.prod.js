@@ -4,6 +4,8 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const MinifyPlugin = require('babel-minify-webpack-plugin')
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
   entry: {
@@ -75,6 +77,8 @@ module.exports = {
       verbose: true 
     }),
     new OptimizeCssAssetsPlugin(),
+    new MinifyPlugin(),
+    // new UglifyJsPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name].[hash].css'
     }),
