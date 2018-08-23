@@ -9,9 +9,10 @@
   "scripts": {
     "start": "webpack-dev-server --config=config/webpack.dev.js",
     "build": "NODE_ENV=production webpack --config=config/webpack.prod.js",
-    "build:dev": "NODE_ENV=production webpack --config=config/webpack.dev.js",
-    "dev": "nodemon --inspect --watch config --watch src/server src/server/index.js",
-    "prod": "NODE_ENV=production node src/server/index.js"
+    "build:server": "NODE_ENV=production webpack --config=config/webpack.server.js --watch",
+    "build:dev-server": "NODE_ENV=development webpack --config=config/webpack.server.js",
+    "dev": "nodemon --watch build --watch config --inspect build/server-bundle.js",
+    "prod": "NODE_ENV=production node build/server-bundle.js"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
@@ -47,6 +48,7 @@
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.5",
     "webpack-express-middleware": "^1.2.1",
-    "webpack-hot-middleware": "^2.22.3"
+    "webpack-hot-middleware": "^2.22.3",
+    "webpack-node-externals": "1.7.2"
   }
 }

@@ -7,6 +7,7 @@
 3. Chunk JS
 4. Chunk CSS
 
+No use of isomorphic tools due to deprecation in favor of webpack `target: node`
 
 ## Packages
 - `babel-core` // Babel is a compiler for writing next generation JavaScript (`.babelrc` defines all rules)
