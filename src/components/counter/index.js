@@ -1,12 +1,11 @@
 import React from 'react'
-import styled from 'react-emotion'
-import { css } from 'emotion'
+import styled, { css } from 'react-emotion'
 
 const color = 'blue'
 
 // Example of usage emotion css
 const className = css`
-  color: ${color}
+  color: ${color};
 `
 
 // Example of using react-emotion with props
