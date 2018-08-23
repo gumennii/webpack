@@ -58,8 +58,7 @@ module.exports = {
           { 
             loader: 'css-loader',
             options: {
-              modules: true,
-              localIdentName: '[local]--[hash:base64:5]'
+              modules: true
             }
           }
         ]
@@ -94,9 +93,9 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new HTMLWebpackPlugin({
-      template: './src/index.pug'
-    }),
+    // new HTMLWebpackPlugin({
+    //   template: './src/index.pug'
+    // }),
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development'
     }),

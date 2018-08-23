@@ -47,7 +47,9 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          { loader: MiniCssExtractPlugin.loader },
+          { 
+            loader: MiniCssExtractPlugin.loader
+          },
           { 
             loader: 'css-loader',
             options: {
@@ -93,11 +95,11 @@ module.exports = {
     // new MinifyPlugin(),
     // new UglifyJsPlugin(),
     new MiniCssExtractPlugin({
-      filename: '[name].[hash].css'
+      filename: '[name].css'
     }),
-    new HTMLWebpackPlugin({
-      template: './src/index.pug'
-    }),
+    // new HTMLWebpackPlugin({
+    //   template: './src/index.pug'
+    // }),
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production'
     })
