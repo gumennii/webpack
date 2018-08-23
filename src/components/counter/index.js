@@ -1,4 +1,18 @@
 import React from 'react'
+import styled from 'react-emotion'
+import { css } from 'emotion'
+
+const color = 'blue'
+
+// Example of usage emotion css
+const className = css`
+  color: ${color}
+`
+
+// Example of using react-emotion with props
+const Paragraph = styled('p')`
+  color: ${props => props.color === 'success' ? 'green' : color}
+`
 
 class Counter extends React.Component {
   constructor(props) {
@@ -19,7 +33,8 @@ class Counter extends React.Component {
   render() {
     return (
       <div onClick={this.handleClick}>
-        <h2>Counting: {this.state.count}</h2>
+        <h2 className={className}>Counting: {this.state.count}</h2>
+        <Paragraph color="success">Sample Text</Paragraph>
       </div>
     )
   }

@@ -13,6 +13,8 @@ const webpackDevMiddleware = require('webpack-dev-middleware')(
 
 const webpackHotMiddleware = require('webpack-hot-middleware')(compiler)
 
+const staticMiddleware = express.static('dist')
+
 /**
  * Middlewares needs to be placed in order:
  * 1. webpackDevMiddleware
@@ -21,9 +23,6 @@ const webpackHotMiddleware = require('webpack-hot-middleware')(compiler)
  */
 server.use(webpackDevMiddleware)
 server.use(webpackHotMiddleware)
-
-const staticMiddleware = express.static('dist')
-
 server.use(staticMiddleware)
 
 server.listen(

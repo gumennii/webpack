@@ -35,7 +35,13 @@ module.exports = {
         test: /\.css$/,
         use: [
           { loader: 'style-loader' },
-          { loader: 'css-loader' }
+          { 
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: '[local]--[hash:base64:5]'
+            }
+          }
         ]
       },
       {
@@ -48,6 +54,10 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test: /\.pug$/,
+        use: [{ loader: 'pug-loader' }]
       },
       {
         test: /\.jpg$/,
@@ -65,7 +75,7 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new HTMLWebpackPlugin({
-      template: './src/index.html'
+      template: './src/index.pug'
     })
   ]
 }

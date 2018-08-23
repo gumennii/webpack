@@ -3,10 +3,14 @@ import { hot } from 'react-hot-loader'
 
 import Counter from '../counter/index.js'
 
+import styles from './styles.css'
+
 class App extends React.Component {
   render() {
     return (
-      <Counter />
+      <div className={styles.app}>
+        <Counter />
+      </div>
     )
   }
 }
