@@ -15,7 +15,6 @@ module.exports = {
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/'
   },
-  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -81,6 +80,9 @@ module.exports = {
     }),
     new HTMLWebpackPlugin({
       template: './src/index.pug'
+    }),
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'production'
     })
   ]
 }
