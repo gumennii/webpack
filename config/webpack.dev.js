@@ -1,8 +1,10 @@
 const path = require('path')
 const webpack = require('webpack')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = {
+  mode: 'development',
   entry: {
     main: [
       'babel-runtime/regenerator',
@@ -12,7 +14,6 @@ module.exports = {
       './src/index.js'
     ]
   },
-  mode: 'development',
   output: {
     filename: '[name]-bundle.js',
     path: path.resolve(__dirname, '../dist'),
@@ -21,6 +22,19 @@ module.exports = {
   devServer: {
     contentBase: 'dist',
     hot: true
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      automaticNameDelimiter: '-',
+      cacheGroups: {
+        vendors: {
+          name: 'vendors',
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10
+        }
+      }
+    }
   },
   devtool: 'source-map',
   module: {
@@ -85,6 +99,9 @@ module.exports = {
     }),
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development'
+    }),
+    new BundleAnalyzerPlugin({
+      openAnalyzer: false
     })
   ]
 }

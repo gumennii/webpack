@@ -8,14 +8,27 @@ const MinifyPlugin = require('babel-minify-webpack-plugin')
 // const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
+  mode: 'production',
   entry: {
     main: ['./src/index.js']
   },
-  mode: 'production',
   output: {
     filename: '[name]-bundle.js',
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/'
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      automaticNameDelimiter: '-',
+      cacheGroups: {
+        vendors: {
+          name: 'vendors',
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10
+        }
+      }
+    }
   },
   module: {
     rules: [
@@ -77,7 +90,7 @@ module.exports = {
       verbose: true 
     }),
     new OptimizeCssAssetsPlugin(),
-    new MinifyPlugin(),
+    // new MinifyPlugin(),
     // new UglifyJsPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name].[hash].css'
