@@ -11,6 +11,7 @@ module.exports = {
   entry: './src/server/render.js',
   output: {
     filename: 'prod-server-bundle.js',
+    chunkFilename: '[name].js',
     path: path.resolve(__dirname, '../build'),
     libraryTarget: 'commonjs2'
   },
@@ -90,6 +91,9 @@ module.exports = {
     //   root: path.resolve(__dirname, '..'), 
     //   verbose: true 
     // }),
+    new webpack.optimize.LimitChunkCountPlugin({
+      maxChunks: 1
+    }),
     new MiniCssExtractPlugin({
       filename: '[name].css'
     }),

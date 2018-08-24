@@ -1,8 +1,8 @@
 const path = require('path')
 const webpack = require('webpack')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-let NodeExternals = require('webpack-node-externals')
+// const NodeExternals = require('webpack-node-externals')
+const NodeExternals = require('./node-externals')
 
 module.exports = {
   name: 'server',
@@ -14,7 +14,7 @@ module.exports = {
     path: path.resolve(__dirname, '../build'),
     libraryTarget: 'commonjs2'
   },
-  externals: NodeExternals(),
+  externals: NodeExternals,
   optimization: {
     splitChunks: {
       chunks: 'all',
@@ -34,27 +34,14 @@ module.exports = {
         test: /\.js$/,
         use: [
           { 
-            loader: 'babel-loader',
-            options: {
-              plugins: ['react-hot-loader/babel']
-            }
+            loader: 'babel-loader'
           }
         ],
         exclude: /node_modules/,
       },
       {
         test: /\.css$/,
-        use: [
-          { 
-            loader: MiniCssExtractPlugin.loader
-          },
-          { 
-            loader: 'css-loader',
-            options: {
-              minimize: true
-            }
-          }
-        ]
+        use: [{ loader: 'css-loader' }]
       },
       {
         test: /\.html$/,
@@ -86,13 +73,13 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.optimize.LimitChunkCountPlugin({
+      maxChunks: 1
+    }),
     // new CleanWebpackPlugin(['build'], {
     //   root: path.resolve(__dirname, '..'), 
     //   verbose: true 
     // }),
-    new MiniCssExtractPlugin({
-      filename: '[name].css'
-    }),
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production'
     })

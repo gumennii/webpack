@@ -42,7 +42,7 @@ if (isDev) {
         enableBrotli: true
       })
     )
-    server.use(render())
+    server.use('*', render())
   })
 }
 

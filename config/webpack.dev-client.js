@@ -6,16 +6,17 @@ module.exports = {
   name: 'client',
   mode: 'development',
   entry: {
+    vendors: ['react', 'react-dom'],
     main: [
       'babel-runtime/regenerator',
       'react-hot-loader/patch',
-      'babel-register',
       'webpack-hot-middleware/client?reload=true',
       './src/index.js'
     ]
   },
   output: {
     filename: '[name]-bundle.js',
+    chunkFilename: '[name]-bundle.js',
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/'
   },
@@ -43,10 +44,7 @@ module.exports = {
         test: /\.js$/,
         use: [
           { 
-            loader: 'babel-loader',
-            options: {
-              plugins: ['react-hot-loader/babel']
-            }
+            loader: 'babel-loader'
           }
         ],
         exclude: /node_modules/,

@@ -1,15 +1,18 @@
 import React from 'react'
 import { hot } from 'react-hot-loader'
+import { BrowserRouter as Router } from 'react-router-dom'
 
-import Counter from '../counter/index.js'
+import Routes from '../../routes/index.js'
 
-// import styles from './styles.css'
+import styles from './styles.css'
 
 class App extends React.Component {
   render() {
     return (
-      <div>
-        <Counter />
+      <div className={styles.app}>
+        <Router>
+          <Routes />
+        </Router>
       </div>
     )
   }

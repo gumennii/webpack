@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const MinifyPlugin = require('babel-minify-webpack-plugin')
 // const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const NodeExternals = require('./node-externals')
 
 module.exports = {
   name: 'client',
@@ -15,6 +16,7 @@ module.exports = {
   },
   output: {
     filename: '[name]-bundle.js',
+    chunkFilename: '[name].js',
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/'
   },
