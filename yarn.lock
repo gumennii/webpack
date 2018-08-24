@@ -480,7 +480,7 @@ babel-code-frame@^6.26.0:
     esutils "^2.0.2"
     js-tokens "^3.0.2"
 
-babel-core@^6.26.0, babel-core@^6.26.3:
+babel-core@6.26.3, babel-core@^6.26.0, babel-core@^6.26.3:
   version "6.26.3"
   resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-6.26.3.tgz#b2e2f09e342d0f0c88e2f02e067794125e75c207"
   dependencies:
@@ -2752,12 +2752,12 @@ figures@^2.0.0:
   dependencies:
     escape-string-regexp "^1.0.5"
 
-file-loader@^1.1.11:
-  version "1.1.11"
-  resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-1.1.11.tgz#6fe886449b0f2a936e43cabaac0cdbfb369506f8"
+file-loader@2.0.0:
+  version "2.0.0"
+  resolved "http://verdaccio.myarecruiter.com/file-loader/-/file-loader-2.0.0.tgz#39749c82f020b9e85901dcff98e8004e6401cfde"
   dependencies:
     loader-utils "^1.0.2"
-    schema-utils "^0.4.5"
+    schema-utils "^1.0.0"
 
 filename-regex@^2.0.0:
   version "2.0.1"
@@ -5356,9 +5356,9 @@ react-emotion@9.2.6:
     babel-plugin-emotion "^9.2.6"
     create-emotion-styled "^9.2.6"
 
-react-hot-loader@^4.3.4:
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/react-hot-loader/-/react-hot-loader-4.3.4.tgz#4f9bdd55bb20d77a6ae8931fa1c187e5f0ce6279"
+react-hot-loader@4.3.5:
+  version "4.3.5"
+  resolved "http://verdaccio.myarecruiter.com/react-hot-loader/-/react-hot-loader-4.3.5.tgz#d8659839d8072d4b78938a776f29f5f1d2a40170"
   dependencies:
     fast-levenshtein "^2.0.6"
     global "^4.3.0"
