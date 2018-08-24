@@ -44,13 +44,15 @@ if (isDev) {
   
 } else {
   webpack([configProdClient, configProdServer]).run((err, stats) => {
-    console.log(stats.toString({
-      color: true
-    }))
+    console.log(
+      stats.toString({
+        colors: true
+      })
+    )
     const clientStats = stats.toJson().children[0]
-    const render = require("../../build/prod-server-bundle.js").default
+    const render = require('../../build/prod-server-bundle.js').default
     server.use(
-      expressStaticGzip("dist", {
+      expressStaticGzip('dist', {
         enableBrotli: true
       })
     )

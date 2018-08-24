@@ -17,7 +17,7 @@ module.exports = {
   },
   output: {
     filename: '[name]-bundle.js',
-    chunkFilename: '[name]-bundle.js',
+    chunkFilename: '[name].js',
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/'
   },
@@ -28,7 +28,11 @@ module.exports = {
       colors: true
     }
   },
+  devtool: 'source-map',
   optimization: {
+    runtimeChunk: {
+      name: 'bootstrap'
+    },
     splitChunks: {
       chunks: 'initial',
       automaticNameDelimiter: '-',
@@ -40,17 +44,12 @@ module.exports = {
       }
     }
   },
-  devtool: 'source-map',
   module: {
     rules: [
       {
         test: /\.js$/,
-        use: [
-          { 
-            loader: 'babel-loader'
-          }
-        ],
         exclude: /node_modules/,
+        use: [{ loader: 'babel-loader' }],
       },
       {
         test: /\.css$/,
@@ -58,48 +57,33 @@ module.exports = {
           { loader: ExtractCssChunks.loader },
           { 
             loader: 'css-loader',
-            options: {
-              modules: true
-            }
+            options: { modules: true }
           }
         ]
       },
       {
-        test: /\.html$/,
+        test: /\.(jpg|png|gif)$/,
         use: [
-          { 
-            loader: 'html-loader',
-            options: {
-              attrs: ['img:src'] 
-            }
+          {
+            loader: 'file-loader',
+            options: { name: 'images/[name].[ext]' }
           }
         ]
       },
       {
         test: /\.pug$/,
         use: [{ loader: 'pug-loader' }]
-      },
-      {
-        test: /\.jpg$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: 'images/[name].[ext]'
-            }
-          }
-        ]
       }
     ]
   },
   plugins: [
     new ExtractCssChunks({ hot: true }),
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development'
     }),
     new BundleAnalyzerPlugin({
       openAnalyzer: false
-    })
+    }),
+    new webpack.HotModuleReplacementPlugin()
   ]
 }

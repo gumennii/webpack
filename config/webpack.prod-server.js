@@ -1,7 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const ExtractCssChunks = require('extract-css-chunks-webpack-plugin')
 const NodeExternals = require('webpack-node-externals')
 
 module.exports = {
@@ -11,7 +10,6 @@ module.exports = {
   entry: './src/server/render.js',
   output: {
     filename: 'prod-server-bundle.js',
-    chunkFilename: '[name].js',
     path: path.resolve(__dirname, '../build'),
     libraryTarget: 'commonjs2'
   },
@@ -33,21 +31,14 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        use: [
-          { 
-            loader: 'babel-loader',
-            options: {
-              plugins: ['react-hot-loader/babel']
-            }
-          }
-        ],
         exclude: /node_modules/,
+        use: [{ loader: 'babel-loader' }]
       },
       {
         test: /\.css$/,
         use: [
           { 
-            loader: MiniCssExtractPlugin.loader
+            loader: ExtractCssChunks.loader
           },
           { 
             loader: 'css-loader',
@@ -58,44 +49,24 @@ module.exports = {
         ]
       },
       {
-        test: /\.html$/,
+        test: /\.(jpg|png|gif)$/,
         use: [
-          { 
-            loader: 'html-loader',
-            options: {
-              attrs: ['img:src'] 
-            }
+          {
+            loader: 'file-loader',
+            options: { name: 'images/[name].[ext]', emitFile: false }
           }
         ]
       },
       {
         test: /\.pug$/,
         use: [{ loader: 'pug-loader' }]
-      },
-      {
-        test: /\.jpg$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: 'images/[name].[ext]',
-              emitFile: false
-            }
-          }
-        ]
       }
     ]
   },
   plugins: [
-    // new CleanWebpackPlugin(['build'], {
-    //   root: path.resolve(__dirname, '..'), 
-    //   verbose: true 
-    // }),
+    new ExtractCssChunks(),
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1
-    }),
-    new MiniCssExtractPlugin({
-      filename: '[name].css'
     }),
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production'

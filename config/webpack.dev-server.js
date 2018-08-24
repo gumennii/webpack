@@ -1,7 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
-// const NodeExternals = require('webpack-node-externals')
+const ExtractCssChunks = require('extract-css-chunks-webpack-plugin')
 const NodeExternals = require('./node-externals')
 
 module.exports = {
@@ -11,75 +10,43 @@ module.exports = {
   entry: './src/server/render.js',
   output: {
     filename: 'dev-server-bundle.js',
+    chunkFilename: '[name].js',
     path: path.resolve(__dirname, '../build'),
     libraryTarget: 'commonjs2'
   },
   externals: NodeExternals,
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-      automaticNameDelimiter: '-',
-      cacheGroups: {
-        vendors: {
-          name: 'vendors',
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10
-        }
-      }
-    }
-  },
+  devtool: 'inline-source-map',
   module: {
     rules: [
       {
         test: /\.js$/,
-        use: [
-          { 
-            loader: 'babel-loader'
-          }
-        ],
         exclude: /node_modules/,
+        use: [{ loader: 'babel-loader' }]
       },
       {
         test: /\.css$/,
-        use: [{ loader: 'css-loader' }]
+        use: [ExtractCssChunks.loader, 'css-loader']
       },
       {
-        test: /\.html$/,
+        test: /\.(jpg|png|gif)$/,
         use: [
-          { 
-            loader: 'html-loader',
-            options: {
-              attrs: ['img:src'] 
-            }
+          {
+            loader: 'file-loader',
+            options: { name: 'images/[name].[ext]', emitFile: false }
           }
         ]
       },
       {
         test: /\.pug$/,
         use: [{ loader: 'pug-loader' }]
-      },
-      {
-        test: /\.jpg$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: 'images/[name].[ext]',
-              emitFile: false
-            }
-          }
-        ]
       }
     ]
   },
   plugins: [
+    new ExtractCssChunks(),
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1
     }),
-    // new CleanWebpackPlugin(['build'], {
-    //   root: path.resolve(__dirname, '..'), 
-    //   verbose: true 
-    // }),
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production'
     })
