@@ -13,6 +13,14 @@ const server = express()
 const isProd = process.env.NODE_ENV === 'production'
 const isDev = !isProd
 
+server.get('/json', (req, res) => {
+  res.json({
+    app: 'test',
+    content: 'content',
+    author: 'Misha'
+  })
+})
+
 if (isDev) {
   const compiler = webpack([configDevClient, configDevServer])
 

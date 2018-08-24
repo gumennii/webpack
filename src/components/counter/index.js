@@ -1,6 +1,7 @@
 import React from 'react'
 import styled, { css } from 'react-emotion'
 import { connect } from 'react-redux'
+import { fetchData } from '../../actions'
 
 const color = 'blue'
 
@@ -22,6 +23,10 @@ class Counter extends React.Component {
     }
 
     this.handleClick = this.handleClick.bind(this)
+  }
+
+  componentDidMount() {
+    this.props.dispatch(fetchData('test'))
   }
 
   handleClick() {
