@@ -5,15 +5,14 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const NodeExternals = require('webpack-node-externals')
 
 module.exports = {
+  name: 'server',
   mode: 'production',
   target: 'node',
-  entry: {
-    server: ['./src/server/index.js']
-  },
+  entry: './src/server/render.js',
   output: {
-    filename: '[name]-bundle.js',
+    filename: 'prod-server-bundle.js',
     path: path.resolve(__dirname, '../build'),
-    publicPath: '/'
+    libraryTarget: 'commonjs2'
   },
   externals: NodeExternals(),
   optimization: {
@@ -87,10 +86,10 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(['build'], {
-      root: path.resolve(__dirname, '..'), 
-      verbose: true 
-    }),
+    // new CleanWebpackPlugin(['build'], {
+    //   root: path.resolve(__dirname, '..'), 
+    //   verbose: true 
+    // }),
     new MiniCssExtractPlugin({
       filename: '[name].css'
     }),

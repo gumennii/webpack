@@ -33,7 +33,7 @@ class Counter extends React.Component {
     return (
       <div onClick={this.handleClick}>
         <img src={require("../../assets/images/103815.jpg")} />
-        <h2 className={className}>Counting: {this.state.count}</h2>
+        <h2 className={className}>Counting!: {this.state.count}</h2>
         <Paragraph color="success">Sample Text</Paragraph>
       </div>
     )

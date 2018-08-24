@@ -1,9 +1,9 @@
 const path = require('path')
 const webpack = require('webpack')
-const HTMLWebpackPlugin = require('html-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = {
+  name: 'client',
   mode: 'development',
   entry: {
     main: [
@@ -93,9 +93,6 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    // new HTMLWebpackPlugin({
-    //   template: './src/index.pug'
-    // }),
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development'
     }),

@@ -7,12 +7,8 @@
   "author": "Mihail Gumennii <mihail.gumennii@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --config=config/webpack.dev.js",
-    "build": "NODE_ENV=production webpack --config=config/webpack.prod.js",
-    "build:server": "NODE_ENV=production webpack --config=config/webpack.server.js --watch",
-    "build:dev-server": "NODE_ENV=development webpack --config=config/webpack.server.js",
-    "dev": "nodemon --watch build --watch config --inspect build/server-bundle.js",
-    "prod": "NODE_ENV=production node build/server-bundle.js"
+    "prod": "NODE_ENV=production node src/server/index.js",
+    "dev": "NODE_ENV=development nodemon --watch src/server --watch config --inspect src/server/index.js"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
@@ -28,6 +24,7 @@
     "css-loader": "^1.0.0",
     "emotion": "9.2.6",
     "express": "^4.16.3",
+    "express-static-gzip": "1.1.1",
     "extract-loader": "^2.0.1",
     "file-loader": "^1.1.11",
     "html-loader": "^0.5.5",
@@ -49,6 +46,8 @@
     "webpack-dev-server": "^3.1.5",
     "webpack-express-middleware": "^1.2.1",
     "webpack-hot-middleware": "^2.22.3",
+    "webpack-hot-server-middleware": "0.5.0",
+    "webpack-mild-compile": "3.2.0",
     "webpack-node-externals": "1.7.2"
   }
 }
