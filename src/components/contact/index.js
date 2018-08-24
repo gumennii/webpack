@@ -1,5 +1,7 @@
 import React from 'react'
 
+import styles from '../../assets/styles/contact.css'
+
 class Contact extends React.Component {
   constructor(props) {
     super(props)
@@ -18,9 +20,9 @@ class Contact extends React.Component {
 
   render() {
     return (
-      <div onClick={this.handleClick}>
+      <div onClick={this.handleClick} className={styles.contact}>
         <img src={require("../../assets/images/103815.jpg")} />
-        <h2>Counting in Contact Page!: {this.state.count}</h2>
+        <h2>Counting in Contact Page: {this.state.count}</h2>
         <p>Counter Starts from 5</p>
         <p>Contact Page</p>
       </div>

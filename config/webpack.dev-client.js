@@ -1,5 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
+const ExtractCssChunks = require('extract-css-chunks-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = {
@@ -22,17 +23,19 @@ module.exports = {
   },
   devServer: {
     contentBase: 'dist',
-    hot: true
+    hot: true,
+    stats: {
+      colors: true
+    }
   },
   optimization: {
     splitChunks: {
-      chunks: 'all',
+      chunks: 'initial',
       automaticNameDelimiter: '-',
       cacheGroups: {
         vendors: {
           name: 'vendors',
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10
+          test: /[\\/]node_modules[\\/]/
         }
       }
     }
@@ -52,7 +55,7 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          { loader: 'style-loader' },
+          { loader: ExtractCssChunks.loader },
           { 
             loader: 'css-loader',
             options: {
@@ -90,6 +93,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new ExtractCssChunks({ hot: true }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development'

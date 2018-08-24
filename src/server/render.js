@@ -3,20 +3,30 @@ import { renderToString } from 'react-dom/server'
 import { StaticRouter } from 'react-router'
 import Routes from '../routes'
 
-export default () => (req, res) => {
+import { flushChunkNames } from 'react-universal-component/server'
+import flushChunks from 'webpack-flush-chunks'
+
+export default ({ clientStats }) => (req, res) => {
+
+  const app = renderToString(
+    <StaticRouter location={req.url} context={{}}>
+      <Routes />
+    </StaticRouter>
+  )
+
+  const { js, styles, cssHash } = flushChunks(clientStats, {
+    chunkNames: flushChunkNames()
+  })
+
   res.send(`
     <html>
       <head>
-        <link href="/main.css" type="text/css" />
+        ${styles}
       </head>
       <body>
-        <div id="root">${renderToString(
-          <StaticRouter location={req.url} context={{}}>
-            <Routes />
-          </StaticRouter>
-        )}</div>
-        <script src='/vendors-bundle.js'></script>
-        <script src='/main-bundle.js'></script>
+        <div id="root">${app}</div>
+        ${js}
+        ${cssHash}
       </body>
     </html>
   `)

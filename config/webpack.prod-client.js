@@ -5,6 +5,7 @@ const HTMLWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const MinifyPlugin = require('babel-minify-webpack-plugin')
+const ExtractCssChunks = require('extract-css-chunks-webpack-plugin')
 // const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const NodeExternals = require('./node-externals')
 
@@ -51,7 +52,7 @@ module.exports = {
         test: /\.css$/,
         use: [
           { 
-            loader: MiniCssExtractPlugin.loader
+            loader: ExtractCssChunks.loader
           },
           { 
             loader: 'css-loader',
@@ -90,6 +91,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new ExtractCssChunks({ hot: true }),
     // new CleanWebpackPlugin(['dist'], {
     //   root: path.resolve(__dirname, '..'), 
     //   verbose: true 
@@ -97,9 +99,9 @@ module.exports = {
     new OptimizeCssAssetsPlugin(),
     // new MinifyPlugin(),
     // new UglifyJsPlugin(),
-    new MiniCssExtractPlugin({
-      filename: '[name].css'
-    }),
+    // new MiniCssExtractPlugin({
+    //   filename: '[name].css'
+    // }),
     // new HTMLWebpackPlugin({
     //   template: './src/index.pug'
     // }),
