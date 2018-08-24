@@ -36,7 +36,6 @@ class Counter extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <div onClick={this.handleClick}>
         <img src={require("../../assets/images/103815.jpg")} />
