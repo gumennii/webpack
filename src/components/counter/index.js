@@ -1,5 +1,6 @@
 import React from 'react'
 import styled, { css } from 'react-emotion'
+import { connect } from 'react-redux'
 
 const color = 'blue'
 
@@ -30,6 +31,7 @@ class Counter extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <div onClick={this.handleClick}>
         <img src={require("../../assets/images/103815.jpg")} />
@@ -40,4 +42,6 @@ class Counter extends React.Component {
   }
 }
 
-export default Counter
+export default connect(state => ({
+  app: state.app
+}))(Counter)
